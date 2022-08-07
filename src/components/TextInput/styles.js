@@ -6,13 +6,12 @@ const BORDER_RADIUS = 8;
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.lightGray,
     width: '90%',
     height: INPUT_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: BORDER_RADIUS,
-    marginVertical: 11,
   },
   containerDisabled: {
     backgroundColor: colors.lightGray,
