@@ -25,7 +25,7 @@ export default function LoginScreen({navigation}) {
 
     const handleLogin= ()=>{
         if(validated()){
-            navigation.navigate("Home")
+            navigation.replace("Home")
         }
     }
 
@@ -52,6 +52,7 @@ export default function LoginScreen({navigation}) {
     return (
         <Container backgroundColor={"#4F6D7B"}>
             <StatusBar barStyle="light-content" />
+
             <Logo tintColor={"#4F6D7B"}/>
             <KeyboardAvoidingView behavior="padding" style={{backgroundColor:'white', paddingHorizontal:20, paddingVertical:20, borderRadius:30, elevation:3}}>
                 <TextInput
