@@ -4,6 +4,7 @@ import { ButtonWithIcon, NormalButton } from '../../components/Button';
 import Container from '../../components/Container';
 import Logo from '../../components/Logo/Logo';
 import TextInput from '../../components/TextInput';
+import styled from 'styled-components';
 
 export default function HomeScreen({ navigation }) {
     let quotePrice = '...';
@@ -15,7 +16,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <Container backgroundColor={"#4F6D7B"}>
             <StatusBar barStyle="light-content" />
-            <TouchableOpacity style={{position: 'absolute', top: 2, right: 2 }}
+            <ImageWrapper
             onPress={()=>{navigation.navigate("Settings")}}
             >
                 <Image
@@ -23,7 +24,7 @@ export default function HomeScreen({ navigation }) {
                     resizeMode={"center"}
                     style={{ tintColor: 'white'}}
                 />
-            </TouchableOpacity>
+            </ImageWrapper>
             <Logo tintColor={"#4F6D7B"} />
             <KeyboardAvoidingView>
                 <TextInput
@@ -54,3 +55,9 @@ export default function HomeScreen({ navigation }) {
         </Container>
     )
 }
+
+const ImageWrapper= styled.TouchableOpacity`
+    position: absolute;
+    top: 2px;
+    right: 2px;
+`
