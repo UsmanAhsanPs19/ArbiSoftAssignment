@@ -11,8 +11,10 @@ export const persistConfig = {
 };
 
 const sagaMiddleware = createSagaMiddleware();
-const store = legacy_createStore(reducer, applyMiddleware(sagaMiddleware));
+export const store = legacy_createStore(reducer, applyMiddleware(sagaMiddleware));
 
 sagaMiddleware.run(userSaga);
 
-export default persistStore(store);
+export const persistor = persistStore(store);
+
+// export default persistStore(store);
