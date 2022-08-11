@@ -30,7 +30,9 @@ function Login({navigation, id, name, email, getUserInfo}) {
 
     useEffect(()=>{
         //getUserInfo();
-        console.log("Yeah!!!!!",id, name, email)
+        if(email && name){
+          navigation.replace("Home");  
+        }
     },[id, name, email])
 
     const handleChangeEmail = (text) => {

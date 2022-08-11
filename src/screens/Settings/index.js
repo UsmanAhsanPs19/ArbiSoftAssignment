@@ -1,8 +1,22 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../utils/colors';
+import { connect } from 'react-redux';
+import { REMOVE_USER_INFO } from '../../redux/user/actions';
+const mapStateToParams= (state, props)=>{
+    const {email} = state.user;
+    return {email};
+}
 
-export default function Settings({navigation}){
+const mapDispatchToProps = (dispatch, props) => ({
+    removeUser: () => {
+      dispatch({
+        type: REMOVE_USER_INFO,
+        payload: {},
+      });
+    },
+  });
+function Settings({navigation, removeUser}){
     const options = ["Themes", "Logout"];
     return(
         <View style={{flex:1}}>
@@ -20,6 +34,7 @@ export default function Settings({navigation}){
             </TouchableOpacity>
             <TouchableOpacity
             onPress={()=>{
+                removeUser();
                 navigation.navigate("Login");
             }}
             style={styles.mainView}>
@@ -40,3 +55,5 @@ const styles = StyleSheet.create({
     listText:{fontFamily:'Roboto-Regular', fontSize:15, color:'black'}
 }
 )
+
+export default connect(mapStateToParams, mapDispatchToProps)(Settings);
