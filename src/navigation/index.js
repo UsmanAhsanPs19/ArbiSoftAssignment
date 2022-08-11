@@ -8,9 +8,12 @@ import SplashScreen from '../screens/Splash';
 import Settings from '../screens/Settings';
 import ThemesScreens from '../screens/Themes';
 const ApplicationStack = createNativeStackNavigator();
+import {store} from "../../store";
+import {Provider} from "react-redux";
 
 export default function AppNavigation() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <ApplicationStack.Navigator initialRouteName='Splash'>
       <ApplicationStack.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
@@ -21,5 +24,6 @@ export default function AppNavigation() {
         <ApplicationStack.Screen name='Themes' component={ThemesScreens} />
       </ApplicationStack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }

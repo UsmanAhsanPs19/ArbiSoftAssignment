@@ -14,6 +14,10 @@ const reducer = (state = initialState, action)=>{
             return {id, email,name};
         }
 
+        default:
+
+        return state;
+
     }
 }
 export {reducer}
