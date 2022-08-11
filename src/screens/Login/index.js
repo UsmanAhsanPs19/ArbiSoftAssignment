@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, StatusBar, Text, View } from 'react-native';
 import { NormalButton } from '../../components/Button';
 import Container from '../../components/Container';
 import Logo from '../../components/Logo/Logo';
+import {connect} from 'react-redux';
 import TextInput from '../../components/TextInput';
+import { GET_USER_INFO } from '../../redux/user/actions';
 
-export default function LoginScreen({navigation}) {
+const mapStateToParams= (state, props)=>{
+    const {id, name, email} = state.user;
 
-    const [email, set_email] = useState("");
+    return {id, name, email};
+}
+
+const mapDispatchToProps = (dispatch, props) => ({
+    getUserInfo: () => {
+      dispatch({
+        type: GET_USER_INFO,
+        payload: {},
+      });
+    },
+  });
+
+function Login({navigation, id, name, email, getUserInfo}) {
+
+    const [i_email, set_email] = useState("");
     const [password, set_password] = useState("");
     const [error, set_error]= useState({});
+
+    useEffect(()=>{
+        //getUserInfo();
+        console.log("Yeah!!!!!",id, name, email)
+    },[id, name, email])
 
     const handleChangeEmail = (text) => {
         console.log(text)
@@ -25,14 +47,15 @@ export default function LoginScreen({navigation}) {
 
     const handleLogin= ()=>{
         if(validated()){
-            navigation.replace("Home")
+            getUserInfo();
+            //navigation.replace("Home")
         }
     }
 
     function validated(){
         var isValid = true;
         var tempError = {...error};
-        if(!email){
+        if(!i_email){
             tempError.email= "Please write valid email.";
             isValid = false;
         }
@@ -57,7 +80,7 @@ export default function LoginScreen({navigation}) {
             <KeyboardAvoidingView behavior="padding" style={{backgroundColor:'white', paddingHorizontal:20, paddingVertical:20, borderRadius:30, elevation:3}}>
                 <TextInput
                     placeholder="Email"
-                    defaultValue={email}
+                    defaultValue={i_email}
                     onChangeText={handleChangeEmail}
                     textColor="black"
                 />
@@ -78,3 +101,5 @@ export default function LoginScreen({navigation}) {
         </Container>
     )
 }
+
+export default connect(mapStateToParams, mapDispatchToProps)(Login);

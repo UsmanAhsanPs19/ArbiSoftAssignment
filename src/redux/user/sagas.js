@@ -1,5 +1,5 @@
 import {takeEvery, put} from 'redux-saga/effects'
-import { GET_USER_INFO } from './actions'
+import { GET_USER_INFO, GET_USER_INFO_FAILURE, GET_USER_INFO_SUCCESS } from './actions'
 
 
 function* handler (){
@@ -7,13 +7,14 @@ function* handler (){
 }
 
 function* getUserInfo(action){
+    console.log(action)
     try {
         yield put({
-            type: GET_ALL_USER_INFO_REQUEST_SUCCESS,
+            type: GET_USER_INFO_SUCCESS,
             payload: {
               id: 'id1',
               name: 'Michael',
-              email: 'anothertestemail@test.com',
+              email: 'usman@test.com',
             },
           }); 
     } catch (error) {

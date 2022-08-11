@@ -1,6 +1,10 @@
-import { combineReducers } from "redux";
-import {reducre as userReducer} from "./user/reducres";
+import {combineReducers} from 'redux';
+import {reducer as userReducer} from './user/reducres';
+import { persistReducer } from 'redux-persist';
+import { persistConfig } from '../../store';
 
-export const reducre = combineReducers({
-    user: userReducer
+const reducer = combineReducers({
+  user: persistReducer(persistConfig, userReducer)
 });
+
+export {reducer};
