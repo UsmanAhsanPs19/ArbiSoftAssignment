@@ -1,41 +1,58 @@
 
-// export const fetchCurrencyRates = (baseCurrency,quoteCurrency,amount) =>
-// {
-//     var myHeaders = new Headers();
-//     myHeaders.append("apikey", "c1QF10erMh1DWJlD1da8rjtZxrfy4YQk");
-//     var requestOptions = {
-//         method: 'GET',
-//         redirect: 'follow',
-//         headers: myHeaders
-//       };
-//     return fetch(`https://api.apilayer.com/fixer/convert?to=${to}&from=${from}&amount=${amount}`, requestOptions)
-// }
+export const fetchCurrencyRates = function* (baseCurrency,quoteCurrency,amount)
+{    
+    console.log("Yes:::",baseCurrency,quoteCurrency,amount)
+    var myHeaders = new Headers();
+    myHeaders.append("apikey", "SUaccEjNk1kNBeAr9s1pRs911b2ycFpU");
 
-import { GET_INITIAL_CONVERSION } from "./action";
+    var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+    };
+    return fetch("https://api.apilayer.com/exchangerates_data/convert?to=PKR&from=USD&amount=1", requestOptions);
+}
+
+import { takeEvery, put, call, select, takeLatest } from "redux-saga/effects";
+import { CHANGE_BASE, CHANGE_QUOTE, CONVERSION_ERROR, CONVERSION_RESULT, GET_INITIAL_CONVERSION, REVERSE_CURRENCY } from "./action";
 
 
 function* handler (){
-    yield takeEvery(GET_INITIAL_CONVERSION, fetchRatesLatest)
+    yield takeLatest(GET_INITIAL_CONVERSION, fetchRatesLatest)
+    yield takeLatest(REVERSE_CURRENCY, fetchRatesLatest);
+    yield takeLatest(CHANGE_BASE, fetchRatesLatest)
+    yield takeLatest(CHANGE_QUOTE, fetchRatesLatest)
 }
 
-
-const fetchRatesLatest = function* (action) {
-    console.log("Here currency:::")
+function* fetchRatesLatest (action) {
     try {
-    //   let usedCurrency = currency;
-    //   if (usedCurrency === undefined) {
-    //     usedCurrency = yield select(state => state.currencies.baseCurrency);
-    //   }
-    //   const response = yield call(getLatestRate, usedCurrency);
-    //   const result = yield response.json();
-    //   if (result.error) {
-    //     yield put({ type: CONVERSION_ERROR, error: result.error });
-    //   } else {
-    //     yield put({ type: CONVERSION_RESULT, result });
-    //   }
+        const {baseCurrency,quoteCurrency} = yield select(state => state.currency);
+        var myHeaders = new Headers();
+        myHeaders.append("apikey", "SUaccEjNk1kNBeAr9s1pRs911b2ycFpU");
+
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+        var final_result=null;
+        var isError= false;
+        yield fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${baseCurrency}&from=${quoteCurrency}&amount=1`, requestOptions)
+        .then(response => response.json())
+        .then(result =>{
+            final_result = result
+        })
+        .catch(error=> {
+            isError=true;
+            final_error = error
+        });
+        if(isError){
+            yield put({ type: CONVERSION_ERROR, error:"There are some issues."});
+        }
+        else
+         yield put({ type: CONVERSION_RESULT, result:final_result});
     } catch (error) {
-    //   yield put({ type: CONVERSION_ERROR, error: error.message });
     }
   };
 
-  export {handler};
+export {handler};

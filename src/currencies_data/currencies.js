@@ -21,6 +21,7 @@ export default [
   'MYR',
   'NOK',
   'NZD',
+  'PKR',
   'PHP',
   'PLN',
   'RON',
